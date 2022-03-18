@@ -39,6 +39,9 @@ class ViewController: UIViewController {
     self.view.addSubview(self.tableView)
     self.view.addSubview(self.nextButton)
     NSLayoutConstraint.activate([
+      self.nextButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
+      self.nextButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      
       self.tableView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
       self.tableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
       self.tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
@@ -75,6 +78,12 @@ final class MyTableViewCell: UITableViewCell {
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
+  private let myImageView: UIImageView = {
+    let view = UIImageView()
+    view.image = UIImage(named: "image1")
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
   
   // MARK: Initializer
   @available(*, unavailable)
@@ -85,25 +94,37 @@ final class MyTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
     self.selectionStyle = .none
-    
     self.contentView.addSubview(self.titleLabel)
+    self.contentView.addSubview(self.myImageView)
     NSLayoutConstraint.activate([
       self.titleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
       self.titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+      
+      self.myImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
+      self.myImageView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+      self.myImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+      self.myImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
     ])
   }
   
   override func setHighlighted(_ highlighted: Bool, animated: Bool) {
     super.setHighlighted(highlighted, animated: animated)
-    if highlighted {
-      UIView.animate(
-        withDuration: 0.05,
-        animations: { self.backgroundColor = .systemBlue },
-        completion: { _ in
-          UIView.animate(withDuration: 0.05) { self.backgroundColor = .white }
-        }
-      )
-    }
+    guard highlighted else { return }
+//      UIView.animate(
+//        withDuration: 0.1,
+//        animations: { self.backgroundColor = .systemBlue },
+//        completion: { _ in
+//          UIView.animate(withDuration: 0.1) { self.backgroundColor = .white }
+//        }
+//      )
+    
+    UIView.transition(
+      with: self.myImageView,
+      duration: 0.2,
+      options: .transitionCrossDissolve,
+      animations: { self.myImageView.image = UIImage(named: "image2") },
+      completion: { _ in self.myImageView.image = UIImage(named: "image1") }
+    )
   }
   
   override func prepareForReuse() {

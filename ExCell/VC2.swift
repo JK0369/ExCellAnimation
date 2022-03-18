@@ -82,15 +82,14 @@ final class MyCollectionViewCell: UICollectionViewCell {
   
   override var isHighlighted: Bool {
     didSet {
-      if self.isHighlighted {
-        UIView.animate(
-          withDuration: 0.05,
-          animations: { self.backgroundColor = .systemBlue },
-          completion: { finished in
-            UIView.animate(withDuration: 0.05) { self.backgroundColor = .darkGray }
-          }
-        )
-      }
+      guard self.isHighlighted else { return }
+      UIView.animate(
+        withDuration: 0.05,
+        animations: { self.backgroundColor = .systemBlue },
+        completion: { finished in
+          UIView.animate(withDuration: 0.05) { self.backgroundColor = .darkGray }
+        }
+      )
     }
   }
   
