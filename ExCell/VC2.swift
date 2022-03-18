@@ -25,7 +25,7 @@ final class VC2: UIViewController {
     view.contentInset = .zero
     view.backgroundColor = .clear
     view.clipsToBounds = true
-    view.register(MyCell.self, forCellWithReuseIdentifier: MyCell.id)
+    view.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: MyCollectionViewCell.id)
     view.translatesAutoresizingMaskIntoConstraints = false
     view.backgroundColor = .lightGray
     view.contentInset = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)
@@ -55,7 +55,7 @@ extension VC2: UICollectionViewDataSource {
     self.dataSource.count
   }
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCell.id, for: indexPath) as! MyCell
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCollectionViewCell.id, for: indexPath) as! MyCollectionViewCell
     cell.prepare(titleText: self.dataSource[indexPath.item])
     return cell
   }
@@ -68,7 +68,7 @@ extension VC2: UICollectionViewDelegateFlowLayout {
   }
 }
 
-final class MyCell: UICollectionViewCell {
+final class MyCollectionViewCell: UICollectionViewCell {
   static let id = "MyCollectionViewCell"
   
   // MARK: UI

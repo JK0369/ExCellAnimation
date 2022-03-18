@@ -19,7 +19,6 @@ class ViewController: UIViewController {
     view.register(MyTableViewCell.self, forCellReuseIdentifier: MyTableViewCell.id)
     view.estimatedRowHeight = 34
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.contentInset = .init(top: 0, left: 50, bottom: 0, right: 0)
     return view
   }()
   private lazy var nextButton: UIButton = {
@@ -44,12 +43,10 @@ class ViewController: UIViewController {
       self.tableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
       self.tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
       self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
-      
-      self.nextButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50),
-      self.nextButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
     ])
     self.tableView.dataSource = self
   }
+  
   @objc func didTapNextButton() {
     let vc2 = VC2()
     vc2.modalPresentationStyle = .fullScreen
@@ -98,7 +95,15 @@ final class MyTableViewCell: UITableViewCell {
   
   override func setHighlighted(_ highlighted: Bool, animated: Bool) {
     super.setHighlighted(highlighted, animated: animated)
-    self.backgroundColor = highlighted ? .systemBlue : .white
+    if highlighted {
+      UIView.animate(
+        withDuration: 0.05,
+        animations: { self.backgroundColor = .systemBlue },
+        completion: { _ in
+          UIView.animate(withDuration: 0.05) { self.backgroundColor = .white }
+        }
+      )
+    }
   }
   
   override func prepareForReuse() {
